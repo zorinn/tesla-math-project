@@ -3,14 +3,14 @@ import math
 class Car:
 
     def __init__(self, mass, drag_coefficient, tire_radius, static_friction, surface_area,
-                    t_max, p_max, r_1, r_2, max_velocity, r_max)
+                    t_max, p_max, r_1, r_2, max_velocity, r_max):
         
         self.gravitational_acceleration = 9.81
         self.air_density = 1.2041
         self.mass = mass
         self.drag_coefficient = drag_coefficient
         self.tire_radius = tire_radius
-        self.static_friction = friction
+        self.static_friction = static_friction
         self.surface_area = surface_area
         self.gear_reduction = 9.325
         self.t_max = t_max
@@ -40,6 +40,7 @@ def f_m_of_R(R,car):
 def H_of_v(v,car):
 
     minimum1 = car.static_friction*car.mass*car.gravitational_acceleration
+    
     R = find_R(v,car)
     minimum2 = f_m_of_R(R,car)
 
