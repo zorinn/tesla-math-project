@@ -1,3 +1,3 @@
 # tesla-math-project
 
-Code for GCIS 124 project
+Code for MATH 181 project
