@@ -1,5 +1,6 @@
 import math
 
+
 class Car:
 
     def __init__(self, mass, drag_coefficient, tire_radius, static_friction, surface_area,

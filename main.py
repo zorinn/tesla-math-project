@@ -10,7 +10,7 @@ def euler_method(v,car):
 
 def main():
 
-    tesla_model_s_p100d = car_funcs.Car(2250,0.24,14.15,1.11,2.1,980,450.4,4000,5750,150,16614)
+    tesla_model_s_p100d = car_funcs.Car(2250,0.24,(14.15*0.0254),1.11,2.1,980,450.4,4000,5750,150,16614)
 
     v_dict = {}
     v = 0
