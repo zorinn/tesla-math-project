@@ -1,4 +1,5 @@
 import car_funcs
+import csv
 
 DELTA_T = 0.01
 
@@ -6,6 +7,12 @@ def euler_method(v,car):
     
     v_n_plus_1 = v + car_funcs.H_of_v(v,car)*DELTA_T
     return v_n_plus_1
+
+def write_to_csv(csv_file,dict):
+
+    with open(csv_file, 'w') as f:
+        for key in dict.keys():
+            f.write("%s,%s"%(key,dict[key]))
 
 
 def main():
@@ -20,7 +27,7 @@ def main():
         v_dict[i] = v1 * 2.23694 # meters per second to mph
         v = v1
 
-    print(v_dict)
+    write_to_csv('tesla_model_s_no_torque_factor.csv',v_dict)
 
 if __name__ == "__main__":
     main()
