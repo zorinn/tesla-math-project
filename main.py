@@ -15,7 +15,7 @@ def main():
     v_dict = {}
     v = 0
     
-    for i in range(20000):
+    for i in range(2000):
         v1 = euler_method(v,tesla_model_s_p100d)
         v_dict[i] = v1 * 2.23694 # meters per second to mph
         v = v1
