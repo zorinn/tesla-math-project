@@ -4,7 +4,7 @@ DELTA_T = 0.01
 
 def euler_method(v,car):
     
-    v_n_plus_1 = v + (car_funcs.H_of_v(v,car)*DELTA_T)
+    v_n_plus_1 = v + car_funcs.H_of_v(v,car)*DELTA_T
     return v_n_plus_1
 
 
@@ -17,7 +17,7 @@ def main():
     
     for i in range(20000):
         v1 = euler_method(v,tesla_model_s_p100d)
-        v_dict[i] = v1
+        v_dict[i] = v1 * 2.23694 # meters per second to mph
         v = v1
 
     print(v_dict)
