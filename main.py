@@ -9,7 +9,7 @@ def euler_method(v,car):
     return v_n_plus_1
 
 def write_to_csv(csv_file,data):
-    csv_headers = ['miniseconds','velocity']
+    csv_headers = ['seconds','velocity']
 
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=csv_headers)
@@ -26,19 +26,20 @@ def main():
     v = 0
 
     start_dict = {}
-    start_dict['miniseconds'] = 0
+    start_dict['seconds'] = 0
     start_dict['velocity'] = 0
     v_data.append(start_dict)
     
     for i in range(2000):
         v_dict = {}
         v1 = euler_method(v,tesla_model_s_p100d)
-        v_dict['miniseconds'] = i+1
+        v_dict['seconds'] = (i+1) / 100
         v_dict['velocity'] = v1 * 2.23694 # meters per second to mph
         v_data.append(v_dict)
         v = v1
 
     write_to_csv('tesla_model_s_no_torque_factor.csv',v_data)
+    print(v_data)
 
 if __name__ == "__main__":
     main()
