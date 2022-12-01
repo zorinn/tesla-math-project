@@ -14,8 +14,8 @@ def write_to_csv(csv_file,data):
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=csv_headers)
         writer.writeheader()
-        for dict in data:
-            writer.writerow(dict)
+        for dict_data in data:
+            writer.writerow(dict_data)
 
 
 def main():

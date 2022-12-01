@@ -24,6 +24,9 @@ class Car:
 def find_R(v,car):
     return (60*car.gear_reduction*v)/(2*math.pi*car.tire_radius)
 
+def find_empirical_torque_factor(R,tau,car):
+    return 1-((R-car.r_1)/(tau*car.r_max))
+
 def f_m_of_R(R,car):
 
     if R <= car.r_1:
