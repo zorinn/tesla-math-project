@@ -24,11 +24,16 @@ def main():
 
     v_data = []
     v = 0
+
+    start_dict = {}
+    start_dict['miniseconds'] = 0
+    start_dict['velocity'] = 0
+    v_data.append(start_dict)
     
     for i in range(2000):
-        v_dict = dict()
+        v_dict = {}
         v1 = euler_method(v,tesla_model_s_p100d)
-        v_dict['miniseconds'] = i
+        v_dict['miniseconds'] = i+1
         v_dict['velocity'] = v1 * 2.23694 # meters per second to mph
         v_data.append(v_dict)
         v = v1
