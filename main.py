@@ -1,7 +1,21 @@
 import car_funcs
 import csv
+import math
 
 DELTA_T = 0.01
+TIMES_AND_VELOCITY_DATA = {
+    0:0,
+    0.26:5.9,
+    1.46:31.1,
+    2.26:49.7,
+    3.16:62.1,
+    4.06:74.6,
+    4.56:80.8,
+    7.46:99.4,
+    9.26:111.8,
+    11.66:124.3,
+    18.66:149.1
+}
 
 def euler_method(v,car):
     
@@ -16,6 +30,19 @@ def write_to_csv(csv_file,data):
         writer.writeheader()
         for dict_data in data:
             writer.writerow(dict_data)
+
+def find_RMSE(v_data):
+    sum = 0
+
+    for key in TIMES_AND_VELOCITY_DATA:
+        # print(v_data[int(key*100)])
+        # print(data['velocity'])
+        # print(data)
+
+        data = v_data[round(key*100)]
+        sum += (TIMES_AND_VELOCITY_DATA[key] - data['velocity'])**2
+    
+    return math.sqrt(sum)
 
 
 def main():
@@ -38,8 +65,9 @@ def main():
         v_data.append(v_dict)
         v = v1
 
-    write_to_csv('tesla_model_s_no_torque_factor.csv',v_data)
-    print(v_data)
+    # write_to_csv('tesla_model_s_no_torque_factor.csv',v_data)
+    # print(v_data)
+    print(find_RMSE(v_data))
 
 if __name__ == "__main__":
     main()

@@ -27,6 +27,21 @@ def find_R(v,car):
 def find_empirical_torque_factor(R,tau,car):
     return 1-((R-car.r_1)/(tau*car.r_max))
 
+def T_of_R(R,tau,car):
+    empirical_torque_factor = find_empirical_torque_factor(R,tau,car)
+
+    if R <= car.r_1:
+        result = car.t_max
+    
+    elif R > car.r_1 and R < car.r_2:
+        numerator1 = ((9549.3*car.p_max) / car.r_2) - (car.t_max)
+        result = empirical_torque_factor * (numerator1 / (car.r_2 - car.r_1))*(R-car.r_1)+car.t_max
+
+    elif R >= car.r_2:
+        result = empirical_torque_factor * (9549.3*car.p_max) / R
+    
+    return result
+
 def f_m_of_R(R,car):
 
     if R <= car.r_1:
