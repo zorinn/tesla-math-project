@@ -123,12 +123,19 @@ def main():
 
     tesla_model_s_p100d = car_funcs.Car(2250,0.24,(14.15*0.0254),1.11,2.1,980,450.4,4000,5750,150,16614)
 
-    tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d)
+    tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d) # this generates simulated velocity data without empirical torque factor
 
+    """
+    Writing Tesla Model S P100D data to csv and also finding RMSE for simulated data vs actual data
+    """
     # write_to_csv('tesla_model_s_no_torque_factor.csv',tesla_model_s_data_no_torque_factor,['seconds','velocity'])
     # print(find_RMSE(tesla_model_s_data_no_torque_factor,TIMES_AND_VELOCITY_DATA_P100))
-    # print(TAU_LIST)
 
+    """
+    Iterates through tau in 1.3 <= tau <= 2, and writes RMSE for each tau to csv.
+    This helps me find the ideal tau value for the new method involving the empirical torque factor.
+    """
+    # print(TAU_LIST)
     # tau_RMSE_list = []
     # for tau in TAU_LIST:
     #     tau_RMSE_dict = {}
@@ -141,10 +148,18 @@ def main():
     #     tau_RMSE_list.append(tau_RMSE_dict)
     # write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
 
-    tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d,20)
+    """
+    Makes new Tesla Model S P100D based off of ideal tau value and new functions implementing the empirical torque factor. Then, it puts data in csv file.
+    Also finds RMSE using new data.
+    """
+    tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d,20) # this generates tesla model s p100 data with empirical torque factor
     # write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
     # print(find_RMSE(tesla_model_s_data_torque_factor,TIMES_AND_VELOCITY_DATA_P100))
 
+    """
+    Simulates velocity data with Tesla Roadster using new method and puts data into csv file.
+    Finds RMSE by comparing simulated Tesla Roadster data with actual data from the Bugatti Chiron.
+    """
     tesla_roadster = car_funcs.Car(2000,0.36,(14.35*0.0254),1.27,2.072,1072,1000,8907,8907,250,27690)
     tesla_roadster_data = generate_data_new(tesla_roadster,45)
     write_to_csv('tesla_roadster_data.csv',tesla_roadster_data,['seconds','velocity'])
