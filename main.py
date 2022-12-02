@@ -88,30 +88,52 @@ def get_tau_RMSE_data(tau,car):
 
     return find_RMSE(v_data)
 
+def generate_data_new(car):
+    tau = 1.55
+    v_data = []
+    v = 0
+
+    start_dict = {}
+    start_dict['seconds'] = 0
+    start_dict['velocity'] = 0
+    v_data.append(start_dict)
+    
+    for i in range(2000):
+        v_dict = {}
+        v1 = euler_method_T_of_r(v,tau,car)
+        v_dict['seconds'] = (i+1) / 100
+        v_dict['velocity'] = v1 * 2.23694 # meters per second to mph
+        v_data.append(v_dict)
+        v = v1  
+
+    return v_data
+
 
 def main():
 
     tesla_model_s_p100d = car_funcs.Car(2250,0.24,(14.15*0.0254),1.11,2.1,980,450.4,4000,5750,150,16614)
 
-    # tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d)
+    tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d)
 
     # write_to_csv('tesla_model_s_no_torque_factor.csv',tesla_model_s_data_no_torque_factor,['seconds','velocity'])
     # print(v_data)
     # print(find_RMSE(tesla_model_s_data))
     # print(TAU_LIST)
 
-    tau_RMSE_list = []
-    for tau in TAU_LIST:
-        tau_RMSE_dict = {}
+    # tau_RMSE_list = []
+    # for tau in TAU_LIST:
+    #     tau_RMSE_dict = {}
+    #     rounded_tau = round(tau,2)
+    #     print(rounded_tau)
+    #     tau_RMSE_data = get_tau_RMSE_data(tau,tesla_model_s_p100d)
+    #     print(tau_RMSE_data)
+    #     tau_RMSE_dict['tau'] = rounded_tau
+    #     tau_RMSE_dict['RMSE'] = tau_RMSE_data
+    #     tau_RMSE_list.append(tau_RMSE_dict)
+    # write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
 
-        rounded_tau = round(tau,2)
-        print(rounded_tau)
-        tau_RMSE_data = get_tau_RMSE_data(tau,tesla_model_s_p100d)
-        print(tau_RMSE_data)
-        tau_RMSE_dict['tau'] = rounded_tau
-        tau_RMSE_dict['RMSE'] = tau_RMSE_data
-        tau_RMSE_list.append(tau_RMSE_dict)
-    write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
+    tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d)
+    write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
 
 if __name__ == "__main__":
     main()
