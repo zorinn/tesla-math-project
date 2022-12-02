@@ -35,10 +35,10 @@ def T_of_R(R,tau,car):
     
     elif R > car.r_1 and R < car.r_2:
         numerator1 = ((9549.3*car.p_max) / car.r_2) - (car.t_max)
-        result = empirical_torque_factor * (numerator1 / (car.r_2 - car.r_1))*(R-car.r_1)+car.t_max
+        result = empirical_torque_factor * ((numerator1 / (car.r_2 - car.r_1))*(R-car.r_1)+car.t_max)
 
     elif R >= car.r_2:
-        result = empirical_torque_factor * (9549.3*car.p_max) / R
+        result = empirical_torque_factor * ((9549.3*car.p_max) / R)
     
     return result
 
@@ -62,6 +62,23 @@ def H_of_v(v,car):
     
     R = find_R(v,car)
     minimum2 = f_m_of_R(R,car)
+
+    if minimum1 < minimum2:
+        minimum = minimum1
+    else:
+        minimum = minimum2
+    
+    in_parentheses = minimum - (0.5)*car.air_density*car.drag_coefficient*car.surface_area*(v**2)
+    result = (1/car.mass)*(in_parentheses)
+
+    return result
+
+def H_of_v_torque(v,tau,car):
+
+    minimum1 = car.static_friction*car.mass*car.gravitational_acceleration
+    
+    R = find_R(v,car)
+    minimum2 = T_of_R(R,tau,car)
 
     if minimum1 < minimum2:
         minimum = minimum1
