@@ -133,7 +133,12 @@ def main():
     # write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
 
     tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d)
-    write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
+    # write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
+    # print(find_RMSE(tesla_model_s_data_torque_factor))
+
+    tesla_roadster = car_funcs.Car(2000,0.36,(14.35*0.0254),1.27,2.072,1072,1000,8907,8907,250,27690)
+    tesla_roadster_data = generate_data_new(tesla_roadster)
+    write_to_csv('tesla_roadster_data.csv',tesla_roadster_data,['seconds','velocity'])
 
 if __name__ == "__main__":
     main()
