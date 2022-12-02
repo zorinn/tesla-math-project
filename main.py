@@ -4,7 +4,7 @@ import math
 import numpy
 
 DELTA_T = 0.01
-TIMES_AND_VELOCITY_DATA = {
+TIMES_AND_VELOCITY_DATA_P100 = {
     0:0,
     0.26:5.9,
     1.46:31.1,
@@ -16,6 +16,16 @@ TIMES_AND_VELOCITY_DATA = {
     9.26:111.8,
     11.66:124.3,
     18.66:149.1
+}
+TIMES_AND_VELOCITY_DATA_CHIRON = {
+    0:0,
+    0.2:5,
+    2.6:60,
+    4.6:100,
+    6.7:130,
+    8.8:150,
+    15.9:200,
+    42.2:249
 }
 TAU_LIST = list(numpy.arange(1.30,2.01,.01))
 
@@ -37,16 +47,16 @@ def write_to_csv(csv_file,data,csv_headers):
         for dict_data in data:
             writer.writerow(dict_data)
 
-def find_RMSE(v_data):
+def find_RMSE(v_data,data_dict):
     sum = 0
 
-    for key in TIMES_AND_VELOCITY_DATA:
+    for key in data_dict:
         # print(v_data[int(key*100)])
         # print(data['velocity'])
         # print(data)
 
         data = v_data[round(key*100)]
-        sum += (TIMES_AND_VELOCITY_DATA[key] - data['velocity'])**2
+        sum += (data_dict[key] - data['velocity'])**2
     
     return math.sqrt(sum)
 
@@ -86,7 +96,7 @@ def get_tau_RMSE_data(tau,car):
         v_data.append(v_dict)
         v = v1  
 
-    return find_RMSE(v_data)
+    return find_RMSE(v_data,TIMES_AND_VELOCITY_DATA_P100)
 
 def generate_data_new(car,seconds):
     tau = 1.55
@@ -116,8 +126,7 @@ def main():
     tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d)
 
     # write_to_csv('tesla_model_s_no_torque_factor.csv',tesla_model_s_data_no_torque_factor,['seconds','velocity'])
-    # print(v_data)
-    # print(find_RMSE(tesla_model_s_data))
+    # print(find_RMSE(tesla_model_s_data_no_torque_factor,TIMES_AND_VELOCITY_DATA_P100))
     # print(TAU_LIST)
 
     # tau_RMSE_list = []
@@ -134,11 +143,12 @@ def main():
 
     tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d,20)
     # write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
-    # print(find_RMSE(tesla_model_s_data_torque_factor))
+    # print(find_RMSE(tesla_model_s_data_torque_factor,TIMES_AND_VELOCITY_DATA_P100))
 
     tesla_roadster = car_funcs.Car(2000,0.36,(14.35*0.0254),1.27,2.072,1072,1000,8907,8907,250,27690)
     tesla_roadster_data = generate_data_new(tesla_roadster,45)
     write_to_csv('tesla_roadster_data.csv',tesla_roadster_data,['seconds','velocity'])
+    print(find_RMSE(tesla_roadster_data,TIMES_AND_VELOCITY_DATA_CHIRON))
 
 if __name__ == "__main__":
     main()
