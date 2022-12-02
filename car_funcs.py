@@ -56,6 +56,9 @@ def f_m_of_R(R,car):
     
     return result
 
+def f_m_of_R_with_T_of_R(R,tau,car):
+    return (car.gear_reduction * T_of_R(R,tau,car)) / car.tire_radius
+
 def H_of_v(v,car):
 
     minimum1 = car.static_friction*car.mass*car.gravitational_acceleration
@@ -78,7 +81,7 @@ def H_of_v_torque(v,tau,car):
     minimum1 = car.static_friction*car.mass*car.gravitational_acceleration
     
     R = find_R(v,car)
-    minimum2 = T_of_R(R,tau,car)
+    minimum2 = f_m_of_R_with_T_of_R(R,tau,car)
 
     if minimum1 < minimum2:
         minimum = minimum1

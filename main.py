@@ -29,8 +29,7 @@ def euler_method_T_of_r(v,tau,car):
     v_n_plus_1 = v + car_funcs.H_of_v_torque(v,tau,car)*DELTA_T
     return v_n_plus_1
 
-def write_to_csv(csv_file,data):
-    csv_headers = ['seconds','velocity']
+def write_to_csv(csv_file,data,csv_headers):
 
     with open(csv_file, 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=csv_headers)
@@ -89,21 +88,30 @@ def get_tau_RMSE_data(tau,car):
 
     return find_RMSE(v_data)
 
+
 def main():
 
     tesla_model_s_p100d = car_funcs.Car(2250,0.24,(14.15*0.0254),1.11,2.1,980,450.4,4000,5750,150,16614)
 
     # tesla_model_s_data_no_torque_factor = generate_data_old(tesla_model_s_p100d)
 
-    # write_to_csv('tesla_model_s_no_torque_factor.csv',tesla_model_s_data)
+    # write_to_csv('tesla_model_s_no_torque_factor.csv',tesla_model_s_data_no_torque_factor,['seconds','velocity'])
     # print(v_data)
     # print(find_RMSE(tesla_model_s_data))
     # print(TAU_LIST)
 
+    tau_RMSE_list = []
     for tau in TAU_LIST:
-        rounded_index = round(tau,2)
+        tau_RMSE_dict = {}
+
+        rounded_tau = round(tau,2)
+        print(rounded_tau)
         tau_RMSE_data = get_tau_RMSE_data(tau,tesla_model_s_p100d)
         print(tau_RMSE_data)
+        tau_RMSE_dict['tau'] = rounded_tau
+        tau_RMSE_dict['RMSE'] = tau_RMSE_data
+        tau_RMSE_list.append(tau_RMSE_dict)
+    write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
 
 if __name__ == "__main__":
     main()
