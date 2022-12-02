@@ -88,7 +88,7 @@ def get_tau_RMSE_data(tau,car):
 
     return find_RMSE(v_data)
 
-def generate_data_new(car):
+def generate_data_new(car,seconds):
     tau = 1.55
     v_data = []
     v = 0
@@ -98,7 +98,7 @@ def generate_data_new(car):
     start_dict['velocity'] = 0
     v_data.append(start_dict)
     
-    for i in range(2000):
+    for i in range(seconds*100):
         v_dict = {}
         v1 = euler_method_T_of_r(v,tau,car)
         v_dict['seconds'] = (i+1) / 100
@@ -132,12 +132,12 @@ def main():
     #     tau_RMSE_list.append(tau_RMSE_dict)
     # write_to_csv('tau_RMSE_data.csv',tau_RMSE_list,['tau','RMSE'])
 
-    tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d)
+    tesla_model_s_data_torque_factor = generate_data_new(tesla_model_s_p100d,20)
     # write_to_csv('tesla_model_s_torque_factor.csv',tesla_model_s_data_torque_factor,['seconds','velocity'])
     # print(find_RMSE(tesla_model_s_data_torque_factor))
 
     tesla_roadster = car_funcs.Car(2000,0.36,(14.35*0.0254),1.27,2.072,1072,1000,8907,8907,250,27690)
-    tesla_roadster_data = generate_data_new(tesla_roadster)
+    tesla_roadster_data = generate_data_new(tesla_roadster,45)
     write_to_csv('tesla_roadster_data.csv',tesla_roadster_data,['seconds','velocity'])
 
 if __name__ == "__main__":
